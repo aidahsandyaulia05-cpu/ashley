@@ -1,0 +1,28 @@
+{
+  "summary": "Comprehensive backend + frontend testing for REEFORA new features (Midtrans demo payments, Google-auth field team monitoring, Gallery page, Instagram link). Backend: 21/21 pytest cases passing covering payments config/confirm/pay/notification/status, auth me/logout, monitoring CRUD+file validation+ownership, team admin ops, gallery, media with Range (206), coral profile with field-updates, and regression. Frontend: Verified /gallery (tabs/instagram/items), /field (login + admin dashboard with monitoring-form + team-manager + team controls), /coral/RF-02481 (field-updates visible), adopt wizard payment step (pay-method-qris/shopeepay/bank, bank VA panel with BCA/va-number, qris-pay-button, demo notice).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Field dashboard / UpdateForm", "issues": ["Dev-only React hydration warning: <option> contains an injected <span> wrapper (from Emergent x-* instrumentation attributes). Not a user-facing bug; may be ignored. If instrumentation can skip <option> children it would silence the warning."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/reefora_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "server.py is 730 lines; consider splitting into routers (payments, auth, monitoring, media) for maintainability.",
+    "finalize_adoption raises HTTPException from webhook path (apply_midtrans_status) and is caught in /payments/notification but still mutates adoption to paid_conflict - good; just log context including coral_id and amount for audit.",
+    "/api/media reads full object into memory even for Range requests; for large videos consider streaming (httpx stream + StreamingResponse) and passing Range through to storage.",
+    "requests.put in put_object uses sync requests inside async endpoint - OK because wrapped with asyncio.to_thread; keep the pattern consistent.",
+    "payment_notification responds 200 even when adoption not found which is correct (idempotent); keep but add structured log."
+  ],
+  "updated_files": ["/app/backend/tests/reefora_test.py"],
+  "success_rate": {"backend": "100% (21/21)", "frontend": "100% of covered flows"},
+  "test_credentials": "ADMIN_EMAILS=aidahsandyaulia05@gmail.com (from backend/.env). Sessions must be injected via mongosh per /app/auth_testing.md because real Emergent Google OAuth cannot be automated. Note: /app/memory/test_credentials.md is outdated (says 'no authentication') and should be refreshed to reference auth_testing.md and admin email.",
+  "seed_data_creation": "Temporary mongosh-inserted admin/field/non-allowlisted users+sessions used during testing; all removed in cleanup. Demo RF-02481 adoption untouched. Pre-existing 'TEST_ smoke' monitoring doc (created by main agent) preserved.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Full suite is at /app/backend/tests/reefora_test.py. Run with env vars ADMIN_TOKEN/FIELD_TOKEN/NONE_TOKEN after creating 3 sessions via mongosh (admin email in ADMIN_EMAILS, field email inserted into team_members, nobody in neither). Live Midtrans mode untestable without real keys; demo path fully covered. Frontend adopt wizard step order: Adoption type -> Package -> Personalize -> Your details -> Payment (uses data-testid 'adopt-next'/'adopt-prev').",
+  "rca of the issue": "No bugs detected."
+}

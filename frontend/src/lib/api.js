@@ -5,8 +5,8 @@ export const api = axios.create({ baseURL: `${BACKEND}/api`, withCredentials: tr
 
 export const mediaSrc = (u) => (u?.startsWith("/api/") ? `${BACKEND}${u}` : u);
 
-export const INSTAGRAM_URL = "https://www.instagram.com/";
-export const INSTAGRAM_HANDLE = "@[your_instagram_handle]";
+export const INSTAGRAM_URL = "https://www.instagram.com/reefora/";
+export const INSTAGRAM_HANDLE = "@reefora";
 
 export const errMsg = (e) => e?.response?.data?.detail?.toString?.() || e?.message || "Something went wrong";
 

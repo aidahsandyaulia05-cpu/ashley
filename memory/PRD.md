@@ -1,25 +1,25 @@
 # REEFORA — PRD
 
 ## Original problem statement
-Build a premium, immersive, interactive website for REEFORA, an Indonesian coral reef restoration and conservation platform centred on CORAL ADOPTION: Discover a Coral → Adopt → Certificate → QR Code → Track Growth → See Impact. Coral is the hero (not marine animals). Taglines "Adopt a Coral. Restore a Reef." / "Restoring Reefs, Reviving Life." Sections: cinematic hero w/ parallax, 3D coral experience, Choose Your Coral w/ filters, adoption types (Individual, Corporate CSR, Idol/Artist/Creator, Tourism Partner), online adoption flow (coral, package, name, info, payment placeholder, Coral ID, certificate, QR, My Coral), on-site adoption, My Coral dashboard + growth timeline, QR coral profile, Coral for Business (CSR/ESG + dashboard), IDOL × REEF campaign, coastal community, Science dashboard (sample data), Visit the Reef, Impact counters, Certificate, Stories, Get Involved, nav, mobile responsive. (Full brief in conversation; mockups attached.)
+Build a premium, immersive, interactive website for REEFORA, an Indonesian coral reef restoration and conservation platform centred on CORAL ADOPTION: Discover a Coral → Adopt → Certificate → QR Code → Track Growth → See Impact. Coral is the hero (not marine animals). Taglines "Adopt a Coral. Restore a Reef." / "Restoring Reefs, Reviving Life." Sections: cinematic hero, 3D coral experience, Choose Your Coral w/ filters, adoption types, online + on-site adoption, My Coral dashboard, QR coral profile, Coral for Business, IDOL × REEF, coastal community, Science dashboard, Visit the Reef, Impact, Certificate, Stories, Get Involved, nav, mobile.
 
-User choices: simulated QRIS payment demo (no real money); no accounts — QR opens coral profile, lookup by adopter name; bilingual EN/ID; stock + generated coral imagery; enquiries saved to DB.
+Follow-up (iteration 2): "Live QRIS Payments: connect a real QRIS payment provider (ShopeePay and bank)" and "Monitoring Updates: let your field team upload new coral photos and health checks that appear instantly on each adopter's QR page" — field team signs in with Google; uploaded coral images/short videos also shown in a separate menu; add Instagram link (@reefora).
 
 ## Architecture
-- FastAPI + MongoDB (`corals`, `adoptions`, `enquiries`); seeds 24 corals + demo adoption RF-02481 "Lumi" by Aidah.
-- React (CRA) + Tailwind + framer-motion + three.js (vanilla, OrbitControls) + recharts + qrcode.react. i18n via `useLang().L(en,id)`.
-- Routes: /, /adopt, /adopt/:coralId, /certificate/:adoptionId, /coral/:coralId, /my-coral, /business, /idol, /science, /visit, /about.
+- FastAPI + MongoDB (corals, adoptions, enquiries, users, user_sessions, team_members, monitoring, files)
+- Payments: Midtrans Snap (QRIS, ShopeePay, bank VAs) via MIDTRANS_SERVER_KEY / MIDTRANS_CLIENT_KEY / MIDTRANS_IS_PRODUCTION; webhook /api/payments/notification (SHA512 signature); status polling; demo simulation only when keys are empty
+- Auth: Emergent Google Auth; access only for ADMIN_EMAILS (aidahsandyaulia05@gmail.com) + admin-managed team_members
+- Media: Emergent object storage, served via /api/media/{path} (Range support)
+- React + Tailwind + framer-motion + three.js + recharts + qrcode.react; EN/ID i18n
 
-## Implemented (2026-10-06)
-- All pages/sections above; 3D nursery with hover/click species, growth stages, low-power mobile fallback.
-- Adoption wizard with packages, extra donation (one-time/monthly), SIMULATED QRIS, certificate (print/PDF, share, QR PNG download), coral profile w/ timeline, My Coral lookup.
-- Enquiry forms (CSR, partner, research, visit, idol, tourism) stored in DB.
-- Tested: backend 34/34, frontend core flows pass.
+## Implemented
+- 2026-10-06: Full site MVP (all sections/pages, 3D nursery, adoption wizard, certificate + QR, coral profile, My Coral lookup, CSR/Idol/Science/Visit/About, enquiries)
+- 2026-10-06: Midtrans integration (demo fallback w/ QRIS / ShopeePay / Bank VA selector), /field console (Google login, monitoring updates w/ photos+videos, admin team allow-list), field updates on coral QR page, /gallery menu, Instagram @reefora links
 
 ## Placeholders
-QRIS merchant: [Account Holder Name], [Bank Name], [NMID]; package prices (Rp150k/350k/750k); [Artist Name], [Fandom A/B/C]; corporate dashboard & science data are SAMPLE; monitoring photos are representative placeholders.
+QRIS merchant [Account Holder Name]/[Bank Name]/[NMID]; package prices; [Artist Name]/[Fandom]; sample science/corporate data.
 
 ## Backlog
-- P0: real QRIS gateway (e.g. Midtrans/Xendit) when user is ready
-- P1: admin panel to upload monitoring photos & update coral health; email certificate (Resend)
-- P2: real Indonesia map, campaign-specific pages per artist, full story articles
+- P0: add Midtrans keys + set Payment Notification URL to {domain}/api/payments/notification
+- P1: email certificate to adopter on payment; notify adopters on new field updates
+- P2: real Indonesia map, per-artist campaign pages, full story articles
