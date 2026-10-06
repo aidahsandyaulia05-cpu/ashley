@@ -25,7 +25,6 @@ export default function Hero() {
   const { scrollY } = useScroll();
   const fade = useTransform(scrollY, [0, 140], [1, 0]);
   const lift = useTransform(scrollY, [0, 140], [0, 60]);
-  const eyebrowFade = useTransform(scrollY, [0, 160], [1, 0]);
 
   const onMove = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -45,12 +44,7 @@ export default function Hero() {
 
       <motion.div style={{ opacity: fade, y: lift }} className="container-x relative flex h-full flex-col justify-center pb-16">
         <motion.div style={{ x: fgX }} className="max-w-3xl">
-          <motion.div style={{ opacity: eyebrowFade }} data-testid="hero-eyebrow">
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 1 }} className="eyebrow text-seafoam">
-              REEFORA · {L("Coral Adoption", "Adopsi Karang")}
-            </motion.p>
-          </motion.div>
-          <h1 className="display mt-6 text-[3.4rem] sm:text-7xl lg:text-[7.2rem]" data-testid="hero-title">
+          <h1 className="display text-[3.4rem] sm:text-7xl lg:text-[7.2rem]" data-testid="hero-title">
             {[L("Adopt a Coral.", "Adopt a Coral."), L("Restore a Reef.", "Restore a Reef.")].map((line, i) => (
               <motion.span key={line} className="block" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.18, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}>
                 {i === 1 ? <>Restore a <em className="text-coral">Reef.</em></> : line}
