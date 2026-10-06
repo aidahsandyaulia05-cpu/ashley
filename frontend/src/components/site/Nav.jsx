@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, Home, Sprout, QrCode, Building2, Compass } from "lucide-react";
+import { Menu, X, ChevronDown, Home, Sprout, QrCode, Building2, Compass, Instagram } from "lucide-react";
+import { INSTAGRAM_URL } from "@/lib/api";
 import { Logo } from "./Bits";
 import { useLang } from "@/lib/i18n";
 
@@ -13,6 +14,7 @@ export const useNavLinks = () => {
     { to: "/#impact", label: L("Impact", "Dampak"), id: "impact" },
     { to: "/science", label: L("Science", "Sains"), id: "science" },
     { to: "/visit", label: L("Visit", "Kunjungi"), id: "visit" },
+    { to: "/gallery", label: L("Gallery", "Galeri"), id: "gallery" },
     { to: "/about", label: L("About", "Tentang"), id: "about" },
   ];
 };
@@ -81,6 +83,7 @@ export default function Nav() {
           </nav>
           <div className="flex items-center gap-3">
             <div className="hidden sm:block"><LangSwitch /></div>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" aria-label="Instagram" data-testid="nav-instagram" className="hidden text-ivory/80 hover:text-coral lg:block"><Instagram className="h-[18px] w-[18px]" strokeWidth={1.5} /></a>
             <Link to="/my-coral" data-testid="nav-my-coral" className="hidden text-[13px] text-ivory/80 hover:text-ivory lg:block">{L("My Coral", "Karangku")}</Link>
             <Link to="/adopt" data-testid="nav-adopt-cta" className="hidden rounded-full border border-ivory/40 px-5 py-2 text-[13px] font-medium transition-colors hover:bg-ivory hover:text-abyss sm:inline-flex">{L("Adopt a Coral", "Adopsi Karang")}</Link>
             <button className="xl:hidden" onClick={() => setOpen((o) => !o)} data-testid="nav-menu-toggle" aria-label="menu">
@@ -94,6 +97,7 @@ export default function Nav() {
             <Link to="/business" className="border-b border-white/5 py-3 font-serif text-2xl" data-testid="mnav-business">{L("Coral for Business", "Karang untuk Bisnis")}</Link>
             <Link to="/idol" className="border-b border-white/5 py-3 font-serif text-2xl" data-testid="mnav-idol">IDOL × REEF</Link>
             <Link to="/my-coral" className="border-b border-white/5 py-3 font-serif text-2xl" data-testid="mnav-my-coral">{L("My Coral", "Karangku")}</Link>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="flex items-center gap-2 border-b border-white/5 py-3 font-serif text-2xl" data-testid="mnav-instagram"><Instagram className="h-5 w-5" />Instagram</a>
             <div className="mt-4 flex items-center justify-between"><LangSwitch /><Link to="/adopt" className="btn-coral">{L("Adopt a Coral", "Adopsi Karang")}</Link></div>
           </div>
         )}

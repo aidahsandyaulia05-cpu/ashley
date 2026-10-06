@@ -6,7 +6,17 @@ import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
 import { api, errMsg, idr } from "@/lib/api";
 import { useLang, TYPE_LABEL } from "@/lib/i18n";
 import { StepType, StepPackage, StepPersonal, StepDetails, PACKAGES } from "@/components/adopt/Steps";
-import { QrisPayment } from "@/components/adopt/QrisPayment";
+import { PaymentStep } from "@/components/adopt/QrisPayment";
+
+const loadSnap = (url, clientKey) => new Promise((resolve, reject) => {
+  if (window.snap) return resolve(window.snap);
+  const s = document.createElement("script");
+  s.src = url;
+  s.setAttribute("data-client-key", clientKey);
+  s.onload = () => resolve(window.snap);
+  s.onerror = reject;
+  document.body.appendChild(s);
+});
 
 const Summary = ({ coral, form, L }) => {
   const pkg = PACKAGES[form.package];
@@ -39,10 +49,12 @@ export default function AdoptFlow() {
   const [step, setStep] = useState(0);
   const [adoption, setAdoption] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [payCfg, setPayCfg] = useState({ mode: "demo" });
   const [form, setForm] = useState({
     adoption_type: TYPE_LABEL[params.get("type")] ? params.get("type") : "individual", package: "guardian", extra_donation: 0, frequency: "one-time",
     project: "", coral_name: "", message: "", adopter_name: "", email: "", phone: "", campaign: params.get("campaign") || "",
   });
+  useEffect(() => { api.get("/payments/config").then((r) => setPayCfg(r.data)); }, []);
   useEffect(() => { api.get(`/corals/${coralId}`).then((r) => { setCoral(r.data); setForm((f) => ({ ...f, project: r.data.site_code })); }).catch(() => setCoral(false)); }, [coralId]);
 
   const steps = [L("Adoption", "Adopsi"), L("Package", "Paket"), L("Personalize", "Personalisasi"), L("Your details", "Data diri"), L("Payment", "Pembayaran")];
@@ -63,11 +75,33 @@ export default function AdoptFlow() {
     }
   };
 
-  const confirm = async () => {
+  const confirm = async (method) => {
     setBusy(true);
     try {
-      const r = await api.post(`/adoptions/${adoption.id}/confirm`);
+      const r = await api.post(`/adoptions/${adoption.id}/confirm`, { method });
       nav(`/certificate/${r.data.id}?new=1`);
+    } catch (e) {
+      toast.error(errMsg(e));
+      setBusy(false);
+    }
+  };
+
+  const pollPaid = async () => {
+    for (let i = 0; i < 20; i++) {
+      const r = await api.get(`/adoptions/${adoption.id}/status`);
+      if (r.data.payment_status === "paid") return nav(`/certificate/${adoption.id}?new=1`);
+      if (r.data.payment_status !== "pending") break;
+      await new Promise((res) => setTimeout(res, 3000));
+    }
+    setBusy(false);
+    toast.info(L("Payment not confirmed yet. We'll finalise your adoption as soon as it arrives.", "Pembayaran belum terkonfirmasi. Adopsi akan diselesaikan begitu pembayaran diterima."));
+  };
+
+  const livePay = async () => {
+    setBusy(true);
+    try {
+      const [{ data }, snap] = await Promise.all([api.post(`/adoptions/${adoption.id}/pay`), loadSnap(payCfg.snap_url, payCfg.client_key)]);
+      snap.pay(data.token, { onSuccess: pollPaid, onPending: pollPaid, onError: () => { setBusy(false); toast.error(L("Payment failed", "Pembayaran gagal")); }, onClose: () => setBusy(false) });
     } catch (e) {
       toast.error(errMsg(e));
       setBusy(false);
@@ -102,7 +136,7 @@ export default function AdoptFlow() {
           <div className="lg:col-span-7">
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.4 }}>
-                {step < 4 ? <Body form={form} set={set} coral={coral} /> : <QrisPayment adoption={adoption} onConfirm={confirm} busy={busy} />}
+                {step < 4 ? <Body form={form} set={set} coral={coral} /> : <PaymentStep adoption={adoption} mode={payCfg.mode} onConfirm={confirm} onLivePay={livePay} busy={busy} />}
               </motion.div>
             </AnimatePresence>
             {step < 4 && (

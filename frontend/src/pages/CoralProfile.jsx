@@ -3,9 +3,10 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { HeartPulse, TrendingUp, ShieldCheck, CalendarCheck, MapPin, Thermometer, Award } from "lucide-react";
-import { api, fmtDate, profileUrl } from "@/lib/api";
+import { api, fmtDate, profileUrl, mediaSrc } from "@/lib/api";
+import { FieldUpdates } from "@/components/coral/FieldUpdates";
 import { Reveal, Counter } from "@/components/site/Bits";
-import { useLang, STATUS_LABEL } from "@/lib/i18n";
+import { useLang, STATUS_LABEL, HEALTH_LABEL } from "@/lib/i18n";
 
 const Stat = ({ Icon, label, value, testid, tone = "text-seafoam" }) => (
   <div className="rounded-2xl border border-white/10 bg-navy/80 p-5 backdrop-blur" data-testid={testid}>
@@ -41,7 +42,8 @@ export default function CoralProfile() {
 
   if (d === false) return <div className="bg-abyss px-6 pb-40 pt-48 text-center font-serif text-4xl text-ivory" data-testid="profile-not-found">{L("Coral not found.", "Karang tidak ditemukan.")}</div>;
   if (!d) return <div className="min-h-screen bg-abyss" />;
-  const { coral, adoption, timeline, monitoring } = d;
+  const { coral, adoption, timeline, monitoring, updates } = d;
+  const hl = (v) => L(...(HEALTH_LABEL[v] || [v, v]));
 
   if (!adoption) return (
     <div className="bg-abyss pb-32 pt-40 text-ivory" data-testid="profile-unadopted">
@@ -61,7 +63,7 @@ export default function CoralProfile() {
   return (
     <div className="bg-abyss text-ivory" data-testid="coral-profile">
       <section className="relative overflow-hidden pb-20 pt-36">
-        <img src={monitoring.photo} alt="" className="water absolute inset-0 h-full w-full object-cover opacity-40" />
+        <img src={mediaSrc(monitoring.photo)} alt="" className="water absolute inset-0 h-full w-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-abyss/60 via-abyss/70 to-abyss" />
         <div className="rays absolute inset-0" />
         <div className="container-x relative grid gap-12 lg:grid-cols-12">
@@ -91,9 +93,9 @@ export default function CoralProfile() {
 
       <section className="container-x pb-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <Stat Icon={HeartPulse} label={L("Coral Health", "Kesehatan Karang")} value={L(monitoring.health, "Sehat")} testid="stat-health" />
+          <Stat Icon={HeartPulse} label={L("Coral Health", "Kesehatan Karang")} value={hl(monitoring.health)} testid="stat-health" />
           <Stat Icon={TrendingUp} label={L("Growth", "Pertumbuhan")} value={<Counter to={monitoring.growth} prefix="+" suffix="%" />} testid="stat-growth" tone="text-coral" />
-          <Stat Icon={ShieldCheck} label={L("Survival Status", "Status Bertahan")} value={L(monitoring.survival, "Aktif")} testid="stat-survival" />
+          <Stat Icon={ShieldCheck} label={L("Survival Status", "Status Bertahan")} value={hl(monitoring.survival)} testid="stat-survival" />
           <Stat Icon={CalendarCheck} label={L("Last Monitoring", "Pemantauan Terakhir")} value={<span className="text-2xl">{fmtDate(monitoring.last_monitoring, lang)}</span>} testid="stat-last" tone="text-gold" />
         </div>
 
@@ -106,8 +108,8 @@ export default function CoralProfile() {
 
         <div className="mt-24 grid gap-6 lg:grid-cols-3">
           <div className="overflow-hidden rounded-[1.75rem] border border-white/10 lg:col-span-1">
-            <img src={monitoring.photo} alt="" className="aspect-[4/3] w-full object-cover" />
-            <div className="p-6"><p className="eyebrow text-coral">{L("Recent photo", "Foto terbaru")}</p><p className="mt-2 text-sm text-slate-300">{timeline.filter((t) => t.status === "done").slice(-1)[0]?.note}</p></div>
+            <img src={mediaSrc(monitoring.photo)} alt="" className="aspect-[4/3] w-full object-cover" data-testid="profile-recent-photo" />
+            <div className="p-6"><p className="eyebrow text-coral">{L("Recent photo", "Foto terbaru")}</p><p className="mt-2 text-sm text-slate-300">{updates?.[0]?.note || timeline.filter((t) => t.status === "done").slice(-1)[0]?.note}</p></div>
           </div>
           <div className="rounded-[1.75rem] border border-white/10 bg-teal/60 p-8 lg:col-span-2" data-testid="profile-impact">
             <p className="eyebrow text-seafoam">{L("Your impact", "Dampakmu")}</p>
@@ -120,6 +122,7 @@ export default function CoralProfile() {
             <p className="mt-8 text-sm text-slate-300">{L("Restoration status", "Status restorasi")}: <span className="text-ivory">{L(...STATUS_LABEL[coral.restoration_status])}</span> · {L("Package", "Paket")}: <span className="text-ivory">{adoption.package_name}</span> · <span className="font-mono">{adoption.certificate_no}</span></p>
           </div>
         </div>
+        <FieldUpdates updates={updates} />
       </section>
     </div>
   );

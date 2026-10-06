@@ -21,6 +21,16 @@ export const TYPE_LABEL = {
   tourism: ["Tourism Partner", "Mitra Pariwisata"],
 };
 
+export const HEALTH_LABEL = {
+  Healthy: ["Healthy", "Sehat"],
+  Monitoring: ["Monitoring", "Dalam Pantauan"],
+  Bleaching: ["Bleaching", "Memutih"],
+  Recovering: ["Recovering", "Pemulihan"],
+  Active: ["Active", "Aktif"],
+  "At Risk": ["At Risk", "Berisiko"],
+  Lost: ["Lost", "Hilang"],
+};
+
 export const STATUS_LABEL = {
   available: ["Available for Adoption", "Tersedia untuk Adopsi"],
   adopted: ["Adopted", "Sudah Diadopsi"],

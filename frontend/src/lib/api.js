@@ -1,6 +1,12 @@
 import axios from "axios";
 
-export const api = axios.create({ baseURL: `${process.env.REACT_APP_BACKEND_URL}/api` });
+export const BACKEND = process.env.REACT_APP_BACKEND_URL;
+export const api = axios.create({ baseURL: `${BACKEND}/api`, withCredentials: true });
+
+export const mediaSrc = (u) => (u?.startsWith("/api/") ? `${BACKEND}${u}` : u);
+
+export const INSTAGRAM_URL = "https://www.instagram.com/";
+export const INSTAGRAM_HANDLE = "@[your_instagram_handle]";
 
 export const errMsg = (e) => e?.response?.data?.detail?.toString?.() || e?.message || "Something went wrong";
 

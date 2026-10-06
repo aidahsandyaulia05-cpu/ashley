@@ -16,6 +16,9 @@ import Idol from "@/pages/Idol";
 import Science from "@/pages/Science";
 import Visit from "@/pages/Visit";
 import About from "@/pages/About";
+import Gallery from "@/pages/Gallery";
+import Field from "@/pages/Field";
+import AuthCallback from "@/components/field/AuthCallback";
 
 const ScrollManager = () => {
   const { pathname, hash } = useLocation();
@@ -29,6 +32,29 @@ const ScrollManager = () => {
   return null;
 };
 
+const AppRoutes = () => {
+  const location = useLocation();
+  if (location.hash?.includes("session_id=")) return <AuthCallback />;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/adopt" element={<AdoptPage />} />
+      <Route path="/adopt/:coralId" element={<AdoptFlow />} />
+      <Route path="/certificate/:adoptionId" element={<CertificatePage />} />
+      <Route path="/coral/:coralId" element={<CoralProfile />} />
+      <Route path="/my-coral" element={<MyCoral />} />
+      <Route path="/business" element={<Business />} />
+      <Route path="/idol" element={<Idol />} />
+      <Route path="/science" element={<Science />} />
+      <Route path="/visit" element={<Visit />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/gallery" element={<Gallery />} />
+      <Route path="/field" element={<Field />} />
+      <Route path="*" element={<Home />} />
+    </Routes>
+  );
+};
+
 function App() {
   return (
     <div className="App">
@@ -37,20 +63,7 @@ function App() {
           <ScrollManager />
           <Nav />
           <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/adopt" element={<AdoptPage />} />
-              <Route path="/adopt/:coralId" element={<AdoptFlow />} />
-              <Route path="/certificate/:adoptionId" element={<CertificatePage />} />
-              <Route path="/coral/:coralId" element={<CoralProfile />} />
-              <Route path="/my-coral" element={<MyCoral />} />
-              <Route path="/business" element={<Business />} />
-              <Route path="/idol" element={<Idol />} />
-              <Route path="/science" element={<Science />} />
-              <Route path="/visit" element={<Visit />} />
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<Home />} />
-            </Routes>
+            <AppRoutes />
           </main>
           <Footer />
           <Toaster position="top-center" richColors />
