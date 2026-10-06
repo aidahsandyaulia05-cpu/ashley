@@ -23,8 +23,8 @@ export default function Hero() {
   const bgY = useTransform(sy, (v) => v * -12);
   const fgX = useTransform(sx, (v) => v * 8);
   const { scrollY } = useScroll();
-  const fade = useTransform(scrollY, [0, 600], [1, 0.2]);
-  const lift = useTransform(scrollY, [0, 600], [0, 120]);
+  const fade = useTransform(scrollY, [0, 140], [1, 0]);
+  const lift = useTransform(scrollY, [0, 140], [0, 60]);
   const eyebrowFade = useTransform(scrollY, [0, 160], [1, 0]);
 
   const onMove = (e) => {
