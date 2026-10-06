@@ -35,10 +35,10 @@ export default function Hero() {
   return (
     <section onMouseMove={onMove} className="grain relative h-[100svh] min-h-[640px] overflow-hidden bg-abyss text-ivory" data-testid="hero">
       <motion.div style={{ x: bgX, y: bgY }} className="absolute -inset-8">
-        <img src="/img/hero_coral.jpg" alt={L("Coral garden with nursery frames", "Taman karang dengan rangka pembibitan")} className="water h-full w-full object-cover object-[60%_70%]" />
+        <img src="/img/hero_coral_hd.jpg" alt={L("Coral garden with nursery frames", "Taman karang dengan rangka pembibitan")} fetchpriority="high" decoding="async" className="h-full w-full object-cover object-[60%_75%]" />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-abyss/90 via-abyss/45 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-b from-abyss/70 via-transparent to-abyss/80" />
+      <div className="absolute inset-0 bg-gradient-to-r from-abyss/85 via-abyss/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-abyss/60 via-transparent to-abyss/70" />
       <div className="rays absolute inset-0" />
       <div className="pointer-events-none absolute inset-0"><Particles /></div>
 
