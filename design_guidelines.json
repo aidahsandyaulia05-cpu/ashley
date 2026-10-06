@@ -1,0 +1,145 @@
+{
+  "project_name": "REEFORA",
+  "archetype": "LUXURY & SCIENTIFIC SUSTAINABILITY (Deep Abyss Navy, Coral Accent, Reef Gold & Ivory Paper)",
+  "emotional_tone": "Cinematic underwater luxury, scientific precision, emotional environmental stewardship. High-contrast editorial look with high-craft interactivity.",
+  "theme": {
+    "default": "dark_abyss",
+    "supported": ["dark_abyss", "ivory_pearl"]
+  },
+  "typography": {
+    "headings": {
+      "font_family": "'Cormorant Garamond', 'Playfair Display', serif",
+      "style": "High-contrast serif headlines, tracking-tight, refined editorial weight (light/regular for luxury titles, semi-bold for key metrics)",
+      "scale": {
+        "h1": "text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight leading-none",
+        "h2": "text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight leading-snug",
+        "h3": "text-xl sm:text-2xl font-serif leading-snug",
+        "h4": "text-lg sm:text-xl font-serif tracking-normal"
+      }
+    },
+    "body": {
+      "font_family": "'Plus Jakarta Sans', 'Outfit', 'Inter', sans-serif",
+      "style": "Clean modern sans-serif, high legibility, tracking-normal or wide for small uppercase metadata",
+      "scale": {
+        "large": "text-lg text-slate-300 font-light leading-relaxed",
+        "default": "text-sm sm:text-base text-slate-300/90 leading-relaxed",
+        "small": "text-xs sm:text-sm text-slate-400 font-normal",
+        "overline": "text-[11px] uppercase tracking-[0.25em] font-semibold text-emerald-400/90"
+      }
+    },
+    "mono": {
+      "font_family": "'JetBrains Mono', 'Source Code Pro', monospace",
+      "usage": "Coral IDs (#RF-02481), scientific coordinates, telemetry badges, QR payload signatures"
+    }
+  },
+  "colors": {
+    "primary_bg": "#030816",
+    "deep_abyss_navy": "#061026",
+    "ocean_dark_blue": "#0B1D3A",
+    "dark_teal": "#0F2E3D",
+    "seafoam_glow": "#14B8A6",
+    "turquoise_accent": "#06B6D4",
+    "coral_pink_accent": "#FF6B6B",
+    "coral_orange_accent": "#F97316",
+    "subtle_reef_gold": "#D4AF37",
+    "ivory_paper": "#FAF8F5",
+    "ivory_card_bg": "#F5F2EB",
+    "plum_deep_accent": "#3B152B",
+    "text": {
+      "primary_light_mode": "#0B192C",
+      "secondary_light_mode": "#475569",
+      "primary_dark_mode": "#F8FAFC",
+      "secondary_dark_mode": "#94A3B8",
+      "accent_gold": "#E5C158",
+      "accent_coral": "#FF7E7E"
+    },
+    "gradients": {
+      "hero_abyss": "bg-gradient-to-b from-[#02050D] via-[#061026] to-[#0B1D3A]",
+      "coral_glow": "bg-gradient-to-r from-[#FF6B6B] via-[#F97316] to-[#D4AF37]",
+      "bioluminescence": "bg-gradient-to-tr from-[#0F2E3D] via-[#06B6D4]/30 to-transparent",
+      "ivory_editorial": "bg-gradient-to-b from-[#FAF8F5] to-[#F3EFE6]"
+    }
+  },
+  "layout_and_spacing": {
+    "philosophy": "Generous Spacing (2-3x default padding). High breathing room to convey calm environmental elegance.",
+    "container_padding": "px-4 sm:px-8 lg:px-16 py-16 sm:py-24",
+    "grid_modes": {
+      "tetris_hero": "grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center",
+      "coral_catalogue": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
+      "dashboard_bento": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+      "csr_tiers": "grid grid-cols-1 md:grid-cols-3 gap-8"
+    }
+  },
+  "components_and_surfaces": {
+    "navigation_bar": {
+      "style": "Glassmorphism optical clarity header (z-50). backdrop-blur-xl bg-[#030816]/80 border-b border-white/10 shadow-2xl transition-all duration-300",
+      "elements": "REEFORA Crest Logo + Gold Monogram, Nav links (Home, Adopt, How It Works, Impact, Programs, Science, Visit, About), EN/ID Switcher, CTA 'Adopt a Coral' (Coral-Gold Glow Button)",
+      "mobile": "Sticky glass header + smooth full-screen modal drawer + bottom quick navigation bar"
+    },
+    "hero_section": {
+      "style": "Full-screen cinematic underwater coral hero with light rays, floating organic bioluminescent particles, subtle mouse parallax movement, and scroll indicator",
+      "hero_visual": "Strict focus on close-up vibrant Acropora & coral polyp formations (NO fish/turtles as main visual).",
+      "taglines": ["Adopt a Coral. Restore a Reef.", "Restoring Reefs, Reviving Life."]
+    },
+    "interactive_3d_coral_experience": {
+      "technology": "Three.js Canvas fallback / interactive parametric 3D coral branching mesh with OrbitControls, zoom, node hover highlighting, fragment click inspector showing species data, polyp health, and virtual growth stages (Day 01 to Month 24)",
+      "mobile_strategy": "Interactive 3D canvas with optimized touch gestures or interactive high-res 360 viewer"
+    },
+    "coral_catalogue": {
+      "filters": ["Species (Acropora tenuis, Pocillopora damicornis, Stylophora pistillata, Porites lutea)", "Location (Bali Barat, Nusa Penida, Komodo Reef, Raja Ampat)", "Adoption Type (Individual, CSR, Idol/Fandom, Tourism)", "Restoration Site"],
+      "card_structure": "Dark abyss cards with 1px border border-teal-500/20, high-res coral close-up image, Coral ID badge (#RF-02481), Status pill ('Available for Adoption'), Species & Coordinates, CTA 'Adopt Coral RF-02481'"
+    },
+    "multi_step_adoption_wizard": {
+      "step_1": "Select Coral & Adoption Tier",
+      "step_2": "Customize (Coral Name tag, Dedicated Adopter Name, Personal Message)",
+      "step_3": "Adopter Contact Info & Certificate Preferences",
+      "step_4": "Simulated QRIS Payment Modal (Interactive Scan & Instant Verification simulation with countdown)",
+      "step_5": "Certificate & QR Generation output with download & share buttons"
+    },
+    "certificate_of_adoption": {
+      "visual_style": "Ivory paper texture (#FAF8F5 background), deep navy typography, intricate gold coral line art borders, reef-gold embossed seal, official REEFORA QR Code linking directly to the live Coral Profile page",
+      "features": "Printable, downloadable PDF-style visual display with high resolution canvas preview"
+    },
+    "my_coral_tracking_dashboard": {
+      "metrics": ["Growth Rate (+18.4%)", "Polyp Survival Rate (99.2%)", "Site Water Temp (28.2°C)", "Last Monitored Date"],
+      "timeline": ["Day 01: Nursery Outplanting", "Month 03: Calcification & Branching", "Month 06: Structural Attachment", "Month 12: Micro-Colony Maturity", "Month 24: Spawning-Ready Coral Head"],
+      "qr_profile": "Public QR Coral Profile viewable directly at /coral/RF-02481 without login"
+    },
+    "idol_fandom_campaign": {
+      "tagline": "Your Fandom Can Help a Reef Grow.",
+      "progress": "2,481 / 5,000 Corals Adopted",
+      "features": "Fandom leaderboards (BTS Army Reef, BLINK Coral Haven, Exo Planet Reef), custom fandom certificate badge, idol dedication tags"
+    },
+    "csr_corporate_page": {
+      "heading": "Turn Your CSR into Something That Grows.",
+      "packages": ["50 Corals - Reef Seedling Sponsor", "100 Corals - Nursery Table Guardian", "500 Corals - Dedicated Coral Reef Zone Sponsor"],
+      "features": "Corporate ESG impact dashboard (CO2 equivalent offset, biodiversity index boost, coastal job hours generated), inquiry modal form for custom enterprise partnerships"
+    },
+    "science_behind_the_reef": {
+      "visualizations": "Recharts dynamic charts showing Coral Survival Rates over time, Sea Surface Temperature vs Growth Density, Substrate Attachment Index, and Species Resiliency Ratings"
+    }
+  },
+  "image_urls": {
+    "hero_coral_close_up": "https://images.unsplash.com/photo-1649335231747-dc2b69fb176c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NTYxODd8MHwxfHNlYXJjaHwzfHxjb3JhbCUyMHJlZWYlMjBjbG9zZSUyMHVwJTIwQWNyb3BvcmElMjByZWVmJTIwcmVzdG9yYXRpb24lMjB1bmRlcndhdGVyfGVufDB8fHx8MTc5MTI5NTcwM3ww&ixlib=rb-4.1.0&q=85",
+    "acropora_branching": "https://images.unsplash.com/photo-1600740073508-89a1726b3cf6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NTYxODd8MHwxfHNlYXJjaHwxfHxjb3JhbCUyMHJlZWYlMjBjbG9zZSUyMHVwJTIwQWNyb3BvcmElMjByZWVmJTIwcmVzdG9yYXRpb24lMjB1bmRlcndhdGVyfGVufDB8fHx8MTc5MTI5NTcwM3ww&ixlib=rb-4.1.0&q=85",
+    "coral_polyps_macro": "https://images.unsplash.com/photo-1653140821397-bceab80182b5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NTYxODd8MHwxfHNlYXJjaHwyfHxjb3JhbCUyMHJlZWYlMjBjbG9zZSUyMHVwJTIwQWNyb3BvcmElMjByZWVmJTIwcmVzdG9yYXRpb24lMjB1bmRlcndhdGVyfGVufDB8fHx8MTc5MTI5NTcwM3ww&ixlib=rb-4.1.0&q=85",
+    "bioluminescent_polyp": "https://images.unsplash.com/photo-1649828537676-a11ed4527547?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NTYxODd8MHwxfHNlYXJjaHw0fHxjb3JhbCUyMHJlZWYlMjBjbG9zZSUyMHVwJTIwQWNyb3BvcmElMjByZWVmJTIwcmVzdG9yYXRpb24lMjB1bmRlcndhdGVyfGVufDB8fHx8MTc5MTI5NTcwM3ww&ixlib=rb-4.1.0&q=85",
+    "coral_nursery_table": "https://images.unsplash.com/photo-1584270060326-bac9f7520e98?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwyfHx1bmRlcndhdGVyJTIwY29yYWwlMjBudXJzZXJ5JTIwcG9seXAlMjBhY3JvcG9yYSUyMG9jZWFuJTIwcmVlZnxlbnwwfHx8fDE3OTEyOTU3MTB8MA&ixlib=rb-4.1.0&q=85",
+    "blue_acropora_colony": "https://images.unsplash.com/photo-1561990488-0e16d60eaa79?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwxfHx1bmRlcndhdGVyJTIwY29yYWwlMjBudXJzZXJ5JTIwcG9seXAlMjBhY3JvcG9yYSUyMG9jZWFuJTIwcmVlZnxlbnwwfHx8fDE3OTEyOTU3MTB8MA&ixlib=rb-4.1.0&q=85",
+    "pink_anemone_macro": "https://images.unsplash.com/photo-1642518382976-7c36c035124c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzl8MHwxfHNlYXJjaHwzfHx1bmRlcndhdGVyJTIwY29yYWwlMjBudXJzZXJ5JTIwcG9seXAlMjBhY3JvcG9yYSUyMG9jZWFuJTIwcmVlZnxlbnwwfHx8fDE3OTEyOTU3MTB8MA&ixlib=rb-4.1.0&q=85"
+  },
+  "instructions_to_main_agent": [
+    "Ensure all interactive elements have data-testid attributes (e.g. data-testid='adopt-now-button', data-testid='qris-pay-button').",
+    "Do NOT use fish or sea turtles as primary visual heroes; corals and reef substrate must be the absolute star of every hero and card illustration.",
+    "Implement the simulated QRIS payment workflow with a realistic QR code canvas, timer, and automatic receipt to Certificate transformation.",
+    "Ensure the bilingual EN/ID toggle updates all UI strings, package titles, and certificate text dynamically.",
+    "Provide public QR profile accessibility where clicking any Coral ID opens the QR profile view directly without forcing account login.",
+    "Keep header backgrounds semi-opaque glass with backdrop-blur-xl to maintain contrast over dark abyss hero visuals."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Avoid generic centered layouts and standard SaaS templates. Use high-contrast editorial serif headers paired with crisp uppercase label tracks.",
+    "Layer visual elements with glassmorphism borders (border-white/10), glowing teal shadows, and subtle paper grain for certificates.",
+    "Ensure responsiveness on mobile viewports with full bottom drawer navigation for quick access to catalogue, certificate scanner, and tracking.",
+    "Use Lucide-react or Phosphor icons exclusively, avoiding AI emoji characters in UI elements."
+  ]
+}
