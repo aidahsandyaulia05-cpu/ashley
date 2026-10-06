@@ -1,0 +1,40 @@
+{
+  "summary": "REEFORA full-stack coral adoption app tested end-to-end. 34/34 backend pytest cases pass (meta/sites/stats/campaign/science, corals list+filters+case-insensitive detail, profile with PII excluded, lookup, adoption create->confirm->certificate, 409 on re-adoption, enquiries for all 7 kinds, validation errors). Frontend verified via Playwright: Home loads with hero/scroll/impact/nav; /adopt catalogue renders 20 cards with all filters; wizard flow /adopt/RF-02483 completed all 5 steps (type -> package -> personalize -> details -> QRIS pay) and generated certificate (REEF-2026-000002) with QR, Download QR, Open My Coral buttons; /my-coral search for 'Aidah' navigates to /coral/RF-02481 profile-welcome; unknown name shows mycoral-empty; /business corporate-dashboard, /idol progress, /science tabs, /visit map pins A-D with site-detail updates, /about all load; mobile (390px) nav-menu-toggle and mobile-bottom-nav visible. Cleanup fixture removes created TEST_ adoptions/enquiries and resets coral status (demo RF-02481 preserved).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AdoptFlow Step 3 (Personalize)", "issue": "data-testid 'freq-monthly' is not present in code (search in /app/frontend/src/ returns no match). Review request listed it as expected. Donation chips use donation-{amount} ids and donation-custom which exist.", "selector": "[data-testid='freq-monthly']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Home (default lang)", "issues": ["Hero subtitle renders Indonesian text ('Setiap karang yang diadopsi...') by default even in a fresh EN session; EN/ID toggle visible but default persistence/initialization may be defaulting to ID. Confirm desired default or auto-detect behaviour."]},
+      {"screen": "Home Impact section", "issues": ["impact-corals displayed '+0' when section not fully in viewport (Counter animates from 0 via Reveal). Not a bug but a user-perceivable moment before animation triggers."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Optional: Add data-testid='freq-monthly' to the recurring/monthly frequency toggle on Personalize step if that control exists; otherwise remove from spec.",
+    "Confirm intended default language (EN vs ID) — hero subtitle renders in Indonesian on first load; EN toggle doesn't visibly change hero copy in a fresh preview session."
+  ],
+  "critical_code_review_comments": [
+    "server.py seeds a demo adoption on every startup when missing — idempotent, good.",
+    "GET /api/adoptions/{id} and /api/profile correctly project out email/phone — PII hygiene is proper.",
+    "Adoption confirm uses atomic conditional update on coral.adoption_status to prevent double-adoption race (409 verified).",
+    "Certificate number uses count+1 which is NOT concurrency-safe under parallel confirms; two simultaneous confirms could produce duplicate certificate_no. Consider a MongoDB counter document with findOneAndUpdate $inc.",
+    "db.corals.create_index is called inside @app.on_event('startup') after seeding; FastAPI deprecates on_event in favour of lifespan — functional but worth migrating.",
+    "CORS allow_origins='*' with allow_credentials=True is a mild inconsistency (browsers ignore credentials when origin is *). Fine for public API with no cookies."
+  ],
+  "updated_files": [
+    "/app/backend/tests/__init__.py",
+    "/app/backend/tests/backend_test.py"
+  ],
+  "success_rate": {"backend": "100% (34/34)", "frontend": "~95% (all core flows pass; one missing optional test-id)"},
+  "test_credentials": "None (no auth required)",
+  "seed_data_creation": "Backend seeds 24 corals + 1 demo adoption (RF-02481 by Aidah/Lumi) on startup. Test suite created transient TEST_ adoptions (then confirmed, triggering certificate generation) and 7 TEST_ enquiries; all cleaned up in session-scoped fixture. Corals touched by tests had adoption_status reset to 'available'. Demo adoption for RF-02481 preserved.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest at /app/backend/tests/backend_test.py (34 tests, all green) is the regression suite. It auto-cleans adoptions/enquiries it creates and resets coral status. The demo adoption RF-02481 (demo:true) must never be deleted. During UI testing avoid clicking first coral card without filter — RF-02481 is the first alphabetically and is already adopted (clicking its card routes to its public profile, not adoption flow). Use a known-available coral like RF-02483 for adoption-wizard E2E. Full certificate path is /certificate/{adoption_id}?new=1. QRIS pay button is simulated via POST /api/adoptions/{id}/confirm."
+}
